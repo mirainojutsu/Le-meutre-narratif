@@ -24,7 +24,7 @@ public class DIalogueTrigger : MonoBehaviour
             {
                 if (hit.collider.CompareTag(targetTag))
                 {
-                    Conversation = hit.collider.gameObject.GetComponent<NPCConversation>;
+                    Conversation = hit.collider.gameObject.GetComponent<NPCConversation>();
                     DoSomething(hit.collider.gameObject);
                 }
             }
