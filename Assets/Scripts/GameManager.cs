@@ -16,11 +16,28 @@ public class GameManager : MonoBehaviour
     public List<GameObject> listThree = new List<GameObject>();
 
 
+    public GameObject shawnOne;
+    public GameObject shawnTwo;
+    public GameObject shawnThree;
+    
+    
+    public bool isShawnOne;
+    public bool isShawnTwo;
+    public bool isShawnThree;
+    
     void Start()
     {
         ActivateListOne();
     }
 
+    void Update()
+    {
+        
+        
+        
+    }
+    
+    
     public void ActivateListOne()
     {
         SetActiveList(listOne);
@@ -80,7 +97,19 @@ public class GameManager : MonoBehaviour
         
         
     }
-    
+
+    public void threeShawn()
+    {
+        
+        
+        isShawnOne = false;
+        isShawnTwo = true;
+        
+        shawnOne.SetActive(false);
+        shawnTwo.SetActive(false);
+        shawnThree.SetActive(true);
+        
+    }
     
     
     

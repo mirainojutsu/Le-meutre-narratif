@@ -84,6 +84,26 @@ public class DIalogueTrigger : MonoBehaviour
     
     void Update()
     {
+        
+        
+        if (gameManager.isShawnOne == true)
+        {
+            gameManager.shawnOne.SetActive(false);
+            gameManager.shawnTwo.SetActive(true);
+            gameManager.shawnThree.SetActive(false);
+                    
+        }
+                
+        if (gameManager.isShawnTwo == true)
+        {
+            
+            gameManager.shawnTwo.SetActive(false);
+            gameManager.shawnThree.SetActive(true);
+                    
+        }
+        
+        
+        
         // Curseur
         if (ConversationManager.Instance.IsConversationActive)
         {
@@ -180,9 +200,15 @@ public class DIalogueTrigger : MonoBehaviour
             {
                 ConversationManager.Instance.StartConversation(conversation);
 
-                if (lookedIdentity.hasAlreadyTalked)
+                if (lookedIdentity.hasAlreadyTalked && lookedIdentity.questionCount >= 2)
                 {
                     ConversationManager.Instance.SetBool("hasTalkedOnce", true);
+                    ConversationManager.Instance.SetInt("count", 3);
+                    
+                } else if (lookedIdentity.hasAlreadyTalked)
+                {
+                    ConversationManager.Instance.SetBool("hasTalkedOnce", true);
+                    
                 }
 
                 if (isCommanderReady)
@@ -190,7 +216,11 @@ public class DIalogueTrigger : MonoBehaviour
                     ConversationManager.Instance.SetBool("isReadyToTalk", true);
                     
                 }
+
                 
+                
+
+               
 
                 lookedIdentity.hasAlreadyTalked = true;
 
