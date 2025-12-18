@@ -6,10 +6,19 @@ public class NPCIdentity : MonoBehaviour
     public string npcID;
     public bool hasAlreadyTalked;
     public GameObject InformationMenu;
-
+    
+    
+    
     Transform player;
-
+    public bool registerThisDude;
+    
+    
     public bool isInteractable;
+    public bool isBed;
+    
+    
+    
+    public bool actOneInteraction;
     
     void Start()
     {
