@@ -15,10 +15,11 @@ public class DIalogueTrigger : MonoBehaviour
     public string targetTag = "Barrel";
 
     private HashSet<string> talkedNPCs = new HashSet<string>();
-    private int requiredNPCs = 2;
+    private int requiredNPCs = 4;
     private bool eventTriggered = false;
 
     public GameObject commander;
+    public GameObject commanderOld;
 
     public bool isCommanderReady = false;
 
@@ -26,6 +27,8 @@ public class DIalogueTrigger : MonoBehaviour
     
     
     public ActOneCommander actOneCommander;
+
+    public GameObject petitTiroir;
     
     void Start()
     {
@@ -84,6 +87,15 @@ public class DIalogueTrigger : MonoBehaviour
     
     void Update()
     {
+
+
+        if (gameManager.commanderCount == 4)
+        {
+            
+            commander.SetActive(true);
+            commanderOld.SetActive(false);
+            isCommanderReady = true; 
+        }
         
         
         if (gameManager.isShawnOne == true)
@@ -193,7 +205,29 @@ public class DIalogueTrigger : MonoBehaviour
                 screenFader.FadeIn(1);
                 StartCoroutine(DelayFadeOut());
                 gameManager.ActivateListTwo();
+                
             }
+
+            if (lookedIdentity.isTiroir == true)
+            {
+                Vector3 positionActuelle = petitTiroir.transform.position;
+                petitTiroir.transform.position = new Vector3(
+                    positionActuelle.x,
+                    positionActuelle.y,
+                    positionActuelle.z - 0.5f
+                );
+                
+                
+                
+            }
+
+            if (lookedIdentity.isCassette == true)
+            {
+                gameManager.switchToDestroyed();
+                
+                
+            }
+            
 
 
             if (conversation != null)
@@ -253,13 +287,18 @@ public class DIalogueTrigger : MonoBehaviour
     {
         Debug.Log("10 NPC distincts atteints");
         
-        isCommanderReady = true; 
+        
+        
+        
         
        
         
         
         
     }
+    
+    
+    
     
     void OnConversationStateChanged(bool active)
     {

@@ -25,9 +25,24 @@ public class GameManager : MonoBehaviour
     public bool isShawnTwo;
     public bool isShawnThree;
     
+    public int commanderCount;
+
+    public GameObject tiroirOne;
+    public GameObject tiroirTwo;
+    public GameObject tiroirThree;
+
+    public GameObject cassetteOne;
+    public GameObject cassetteTwo;
+
+    public bool isLastCommander;
+
+    public GameObject lastCommander;
+    public GameObject presqueCommander;
+    
     void Start()
     {
         ActivateListOne();
+        tiroirOne.SetActive(false);
     }
 
     void Update()
@@ -35,6 +50,38 @@ public class GameManager : MonoBehaviour
         
         
         
+    }
+
+    public void activateLastCommander()
+    {
+        presqueCommander.SetActive(false);
+        lastCommander.SetActive(true);
+        
+        
+    }
+    
+    
+    public void switchToDestroyed()
+    {
+        cassetteOne.SetActive(false);
+        cassetteTwo.SetActive(true);
+        
+        
+    }
+    
+
+    public void showCassette()
+    {
+        tiroirOne.SetActive(false);
+        tiroirTwo.SetActive(true);
+        tiroirThree.SetActive(true);
+        
+    }
+    
+    
+    public void commanderIncrease()
+    {
+        commanderCount++;
     }
     
     

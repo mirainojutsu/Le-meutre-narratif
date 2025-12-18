@@ -11,6 +11,7 @@ public class NPCIdentity : MonoBehaviour
     
     public int questionCount;
     
+    
     Transform player;
     public bool registerThisDude;
     
@@ -21,6 +22,13 @@ public class NPCIdentity : MonoBehaviour
     public bool isShawn;
     
     public bool actOneInteraction;
+
+
+    public bool isCommandeer;
+
+    public bool isTiroir;
+
+    public bool isCassette;
     
     void Start()
     {
@@ -89,6 +97,12 @@ public class NPCIdentity : MonoBehaviour
         gameManager.isShawnThree = true;
     }
 
+
+    public void commanderInt()
+    {
+        
+        gameManager.commanderCount++;
+    }
     
 
 
