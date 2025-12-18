@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Tag
   - Barrel
+  - interactable
   layers:
   - Default
   - TransparentFX
