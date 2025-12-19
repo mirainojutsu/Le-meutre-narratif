@@ -6,11 +6,10 @@ using UnityEngine.Rendering;
 
 public class DIalogueTrigger : MonoBehaviour
 {
-
     public GameManager gameManager;
     public ScreenFader screenFader;
     public MouseComponent mouseComp;
-    
+
     public float distance = 3f;
     public string targetTag = "Barrel";
 
@@ -24,108 +23,95 @@ public class DIalogueTrigger : MonoBehaviour
     public bool isCommanderReady = false;
 
     public bool needScreenFade = false;
-    
-    
+
+
     public ActOneCommander actOneCommander;
 
     public GameObject petitTiroir;
 
     private NPCIdentity lookedIdentity;
-    
+    private NPCIdentity lastLookedIdentity;
+
+
     void Start()
     {
         //commander.SetActive(false);
-        
     }
-    
-    
+
+
     private void OnEnable()
-        {
-            ConversationManager.OnConversationStarted += ConversationStart;
-            ConversationManager.OnConversationEnded += ConversationEnd;
-         }
+    {
+        ConversationManager.OnConversationStarted += ConversationStart;
+        ConversationManager.OnConversationEnded += ConversationEnd;
+    }
 
     private void OnDisable()
-        {
+    {
         ConversationManager.OnConversationStarted -= ConversationStart;
         ConversationManager.OnConversationEnded -= ConversationEnd;
-        }
+    }
 
 
     private void ConversationStart()
     {
-        if (lookedIdentity.anim != null)
+        if (lastLookedIdentity.anim != null)
         {
-            lookedIdentity.anim.TestOn.Invoke();
+            lastLookedIdentity.anim.TestOn.Invoke();
         }
 
         if (needScreenFade)
         {
             screenFader.FadeIn(1);
-            
         }
-        
-        
     }
 
     private void ConversationEnd()
     {
-        if (lookedIdentity.anim != null)
+        if (lastLookedIdentity.anim != null)
         {
-            lookedIdentity.anim.TestOff.Invoke();
+            lastLookedIdentity.anim.TestOff.Invoke();
         }
 
         if (needScreenFade)
-            {
-                screenFader.FadeOut(1);
-                needScreenFade = false;
-            }
+        {
+            screenFader.FadeOut(1);
+            needScreenFade = false;
+        }
 
-            if (gameManager.isActOne)
-            {
-                gameManager.launchActOneDialogue();
-                
-                
-            }
-            
-            
-            gameManager.closeAct();
-            
-            
-        }  
+        if (gameManager.isActOne)
+        {
+            gameManager.launchActOneDialogue();
+        }
 
-    
+
+        gameManager.closeAct();
+    }
+
+
     void Update()
     {
-
-
-        if (gameManager.commanderCount == 4)
+        if (gameManager.commanderCount == 4 && gameManager.isActTwo)
         {
-            
             commander.SetActive(true);
             commanderOld.SetActive(false);
-            isCommanderReady = true; 
+            isCommanderReady = true;
         }
-        
-        
+
+
         if (gameManager.isShawnOne == true)
         {
             gameManager.shawnOne.SetActive(false);
             gameManager.shawnTwo.SetActive(true);
             gameManager.shawnThree.SetActive(false);
-                    
         }
-                
+
         if (gameManager.isShawnTwo == true)
         {
-            
             gameManager.shawnTwo.SetActive(false);
             gameManager.shawnThree.SetActive(true);
-                    
         }
-        
-        
-        
+
+
         // Curseur
         if (ConversationManager.Instance.IsConversationActive)
         {
@@ -143,34 +129,27 @@ public class DIalogueTrigger : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F))
         {
             screenFader.FadeIn(1);
-            
-
         }
-        
+
         if (Input.GetKeyDown(KeyCode.G))
         {
             screenFader.FadeOut(1);
-            
-
-
         }
-        
-        
+
+
         Ray ray = new Ray(transform.position, transform.forward);
         RaycastHit hit;
 
-         lookedIdentity = null;
-       
+        lookedIdentity = null;
+
 
         if (Physics.Raycast(ray, out hit, distance))
         {
             if (hit.collider.CompareTag(targetTag))
             {
                 lookedIdentity = hit.collider.GetComponent<NPCIdentity>();
+                lastLookedIdentity = lookedIdentity;
             }
-
-            
-            
         }
 
         // Gestion affichage InformationMenu
@@ -187,13 +166,9 @@ public class DIalogueTrigger : MonoBehaviour
             NPCConversation conversation =
                 lookedIdentity.GetComponent<NPCConversation>();
 
-            
-            
+
             if ((lookedIdentity.isInteractable == true) && conversation != null)
             {
-               
-                
-                
                 needScreenFade = true;
                 StartCoroutine(StartConversationDelayed(conversation, 0f));
                 //ConversationManager.Instance.StartConversation(conversation);
@@ -201,13 +176,10 @@ public class DIalogueTrigger : MonoBehaviour
                 if (lookedIdentity.actOneInteraction == true && !ConversationManager.Instance.IsConversationActive)
                 {
                     gameManager.isActOne = true;
-                    
-                    
                 }
-                
+
 
                 return;
-
             }
 
             if (lookedIdentity.isBed == true)
@@ -215,7 +187,6 @@ public class DIalogueTrigger : MonoBehaviour
                 screenFader.FadeIn(1);
                 StartCoroutine(DelayFadeOut());
                 gameManager.ActivateListTwo();
-                
             }
 
             if (lookedIdentity.isTiroir == true)
@@ -226,18 +197,13 @@ public class DIalogueTrigger : MonoBehaviour
                     positionActuelle.y,
                     positionActuelle.z - 0.5f
                 );
-                
-                
-                
             }
 
             if (lookedIdentity.isCassette == true)
             {
                 gameManager.switchToDestroyed();
-                
-                
+                gameManager.Drawer();
             }
-            
 
 
             if (conversation != null)
@@ -248,23 +214,17 @@ public class DIalogueTrigger : MonoBehaviour
                 {
                     ConversationManager.Instance.SetBool("hasTalkedOnce", true);
                     ConversationManager.Instance.SetInt("count", 3);
-                    
-                } else if (lookedIdentity.hasAlreadyTalked)
+                }
+                else if (lookedIdentity.hasAlreadyTalked)
                 {
                     ConversationManager.Instance.SetBool("hasTalkedOnce", true);
-                    
                 }
 
                 if (isCommanderReady)
                 {
                     ConversationManager.Instance.SetBool("isReadyToTalk", true);
-                    
                 }
 
-                
-                
-
-               
 
                 lookedIdentity.hasAlreadyTalked = true;
 
@@ -272,9 +232,7 @@ public class DIalogueTrigger : MonoBehaviour
                 if (lookedIdentity.registerThisDude == true)
                 {
                     RegisterNPC(lookedIdentity.npcID);
-                    
                 }
-                
             }
         }
     }
@@ -296,26 +254,14 @@ public class DIalogueTrigger : MonoBehaviour
     void OnTenNPCsTalked()
     {
         Debug.Log("10 NPC distincts atteints");
-        
-        
-        
-        
-        
-       
-        
-        
-        
     }
-    
-    
-    
-    
+
     void OnConversationStateChanged(bool active)
     {
         Cursor.lockState = active ? CursorLockMode.None : CursorLockMode.Locked;
-        Cursor.visible  = active;
+        Cursor.visible = active;
     }
-    
+
     void DisableAllOtherInfoMenus(NPCIdentity exception)
     {
         NPCIdentity[] npcs = FindObjectsOfType<NPCIdentity>();
@@ -328,8 +274,8 @@ public class DIalogueTrigger : MonoBehaviour
             }
         }
     }
-    
-    
+
+
     IEnumerator StartConversationDelayed(NPCConversation conversation, float delay)
     {
         yield return new WaitForSeconds(delay);
@@ -342,5 +288,4 @@ public class DIalogueTrigger : MonoBehaviour
         yield return new WaitForSeconds(2f);
         screenFader.FadeOut(1);
     }
-    
 }

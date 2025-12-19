@@ -108,6 +108,7 @@ public class NPCIdentity : MonoBehaviour
         gameManager.commanderCount++;
     }
     
+    
 
 
 }

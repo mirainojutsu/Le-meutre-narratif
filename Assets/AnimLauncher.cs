@@ -18,17 +18,17 @@ public class AnimLauncher : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            TestOn.Invoke();
-        }
-        
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            TestOff.Invoke();
-
-            
-        }
+        // if (Input.GetKeyDown(KeyCode.Space))
+        // {
+        //     TestOn.Invoke();
+        // }
+        //
+        // if (Input.GetKeyDown(KeyCode.Return))
+        // {
+        //     TestOff.Invoke();
+        //
+        //     
+        // }
     }
 
   public   void AnimatorTrigger(string trigger)
