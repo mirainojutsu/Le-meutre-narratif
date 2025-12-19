@@ -3,6 +3,8 @@ using DialogueEditor;
 
 public class NPCIdentity : MonoBehaviour
 {
+    public AnimLauncher anim;
+    
     public string npcID;
     public bool hasAlreadyTalked;
     public GameObject InformationMenu;
@@ -34,6 +36,8 @@ public class NPCIdentity : MonoBehaviour
     {
         hasAlreadyTalked = false;
         player = Camera.main.transform;
+
+        anim = GetComponentInChildren<AnimLauncher>();
     }
 
     void Update()

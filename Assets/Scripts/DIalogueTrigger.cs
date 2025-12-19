@@ -29,6 +29,8 @@ public class DIalogueTrigger : MonoBehaviour
     public ActOneCommander actOneCommander;
 
     public GameObject petitTiroir;
+
+    private NPCIdentity lookedIdentity;
     
     void Start()
     {
@@ -52,6 +54,10 @@ public class DIalogueTrigger : MonoBehaviour
 
     private void ConversationStart()
     {
+        if (lookedIdentity.anim != null)
+        {
+            lookedIdentity.anim.TestOn.Invoke();
+        }
 
         if (needScreenFade)
         {
@@ -63,9 +69,13 @@ public class DIalogueTrigger : MonoBehaviour
     }
 
     private void ConversationEnd()
+    {
+        if (lookedIdentity.anim != null)
         {
-            
-            if (needScreenFade)
+            lookedIdentity.anim.TestOff.Invoke();
+        }
+
+        if (needScreenFade)
             {
                 screenFader.FadeOut(1);
                 needScreenFade = false;
@@ -149,7 +159,7 @@ public class DIalogueTrigger : MonoBehaviour
         Ray ray = new Ray(transform.position, transform.forward);
         RaycastHit hit;
 
-        NPCIdentity lookedIdentity = null;
+         lookedIdentity = null;
        
 
         if (Physics.Raycast(ray, out hit, distance))
