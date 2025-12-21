@@ -31,6 +31,8 @@ public class DIalogueTrigger : MonoBehaviour
 
     private NPCIdentity lookedIdentity;
     private NPCIdentity lastLookedIdentity;
+    
+    private bool act0neInteractionDone = false;
 
 
     void Start()
@@ -78,8 +80,9 @@ public class DIalogueTrigger : MonoBehaviour
             needScreenFade = false;
         }
 
-        if (gameManager.isActOne)
+        if (gameManager.isActOne && lastLookedIdentity.actOneInteraction && !act0neInteractionDone )
         {
+            act0neInteractionDone = true;
             gameManager.launchActOneDialogue();
         }
 
@@ -90,7 +93,7 @@ public class DIalogueTrigger : MonoBehaviour
 
     void Update()
     {
-        if (gameManager.commanderCount == 4 && gameManager.isActTwo)
+        if (gameManager.commanderCount >= 6 && gameManager.isActTwo)
         {
             commander.SetActive(true);
             commanderOld.SetActive(false);
@@ -173,10 +176,6 @@ public class DIalogueTrigger : MonoBehaviour
                 StartCoroutine(StartConversationDelayed(conversation, 0f));
                 //ConversationManager.Instance.StartConversation(conversation);
 
-                if (lookedIdentity.actOneInteraction == true && !ConversationManager.Instance.IsConversationActive)
-                {
-                    gameManager.isActOne = true;
-                }
 
 
                 return;

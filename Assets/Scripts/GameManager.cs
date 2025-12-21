@@ -57,6 +57,11 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        if (commanderCount >= 6 && isActTwo)
+        {
+            presqueCommander.SetActive(false);
+            Act2Commander.SetActive(true);
+        }
     }
 
     public void activateLastCommander()
@@ -85,10 +90,7 @@ public class GameManager : MonoBehaviour
     {
         commanderCount++;
 
-        if (commanderCount >= 4)
-        {
-            presqueCommander.SetActive(false);
-        }
+    
     }
 
 
@@ -160,9 +162,6 @@ public class GameManager : MonoBehaviour
 
     public void closeAct()
     {
-        isActOne = false;
-        isActTwo = false;
-        isActThree = false;
     }
 
     public void threeShawn()
